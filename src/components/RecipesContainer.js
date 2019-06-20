@@ -23,6 +23,9 @@ class RecipesContainer extends Component {
     render() {
         return(
             <div>
+                <button className='newRecipeButton'>
+                    New Recipe
+                </button>
                 {this.state.recipes.map((recipe) => {
                     return(<Recipe recipe={recipe} key={recipe.id} />)
                 })}
