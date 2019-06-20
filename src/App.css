@@ -7,3 +7,11 @@
 .App-intro {
   font-size: large;
 }
+
+.tile {
+  background: purple;
+  color: white;
+  margin: 10px;
+  text-align: center;
+  display: inline-block;
+}
