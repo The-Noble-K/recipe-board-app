@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Recipe from './Recipe';
+import update from 'immutability-helper'
+import RecipeForm from './RecipeForm'
 
 class RecipesContainer extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            recipes: []
+            recipes: [],
+            editingRecipeId: null
         }
     }
 
@@ -20,14 +23,42 @@ class RecipesContainer extends Component {
         .catch(error => console.log(error))
     }
 
+    addNewRecipe = () => {
+        axios.post(
+            'http://localhost:3001/api/v1/recipes',
+            { recipe: 
+                {
+                    title: '',
+                    ingredients: '',
+                    instructions: ''
+                }
+            }
+        )
+        .then(response => {
+            console.log(response)
+            const recipes = update(this.state.ideas, {
+                $splice: [[0, 0, response.data]]
+            })
+            this.setState({
+                recipes: recipes,
+                editingRecipeId: response.data.id
+            })
+        })
+        .catch(error => console.log(error))
+    }
+
     render() {
         return(
             <div>
-                <button className='newRecipeButton'>
+                <button className='newRecipeButton' onClick={this.addNewRecipe}>
                     New Recipe
                 </button>
                 {this.state.recipes.map((recipe) => {
-                    return(<Recipe recipe={recipe} key={recipe.id} />)
+                    if(this.state.editingRecipeId === recipe.id) {
+                        return(<RecipeForm recipe={recipe} key={recipe.id} />)
+                    } else {
+                        return(<Recipe recipe={recipe} key={recipe.id} />)
+                    }
                 })}
             </div>
         );
