@@ -29,14 +29,14 @@ class RecipesContainer extends Component {
             { recipe: 
                 {
                     title: '',
-                    ingredients: '',
-                    instructions: ''
+                    ingredients: [],
+                    instructions: []
                 }
             }
         )
         .then(response => {
             console.log(response)
-            const recipes = update(this.state.ideas, {
+            const recipes = update(this.state.recipes, {
                 $splice: [[0, 0, response.data]]
             })
             this.setState({
