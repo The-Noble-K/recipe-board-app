@@ -10,7 +10,8 @@ class RecipesContainer extends Component {
         super(props)
         this.state = {
             recipes: [],
-            editingRecipeId: null
+            editingRecipeId: null,
+            notification: ''
         }
     }
 
@@ -52,7 +53,14 @@ class RecipesContainer extends Component {
         const recipes = update(this.state.recipes, {
             [recipeIndex]: { $set: recipe }
         })
-        this.setState({recipes: recipes})
+        this.setState({
+            recipes: recipes,
+            notification: 'Changes saved'
+        })
+    }
+
+    resetNotification = () => {
+        this.setState({notification: ''})
     }
 
     render() {
@@ -61,9 +69,13 @@ class RecipesContainer extends Component {
                 <button className='newRecipeButton' onClick={this.addNewRecipe}>
                     New Recipe
                 </button>
+                <span className='notification'>
+                    {this.state.notification}
+                </span>
                 {this.state.recipes.map((recipe) => {
                     if(this.state.editingRecipeId === recipe.id) {
-                        return(<RecipeForm recipe={recipe} key={recipe.id} updateRecipe={this.updateRecipe} />)
+                        return(<RecipeForm recipe={recipe} key={recipe.id} 
+                            updateRecipe={this.updateRecipe} resetNotification={this.resetNotification} />)
                     } else {
                         return(<Recipe recipe={recipe} key={recipe.id} />)
                     }
