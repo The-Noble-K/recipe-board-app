@@ -47,3 +47,16 @@ textarea {
   height: 90px;
   font-size: 12px;
 }
+
+.deleteButton {
+  visibility: hidden;
+  float: right;
+  margin: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: red;
+}
+
+.tile:hover .deleteButton {
+  visibility: visible;
+}

@@ -30,8 +30,8 @@ class RecipesContainer extends Component {
             { recipe: 
                 {
                     title: '',
-                    ingredients: [],
-                    instructions: []
+                    ingredients: '',
+                    instructions: ''
                 }
             }
         )
@@ -59,6 +59,16 @@ class RecipesContainer extends Component {
         })
     }
 
+    deleteRecipe = (id) => {
+        axios.delete(`http://localhost:3001/api/v1/recipes/${id}`)
+        .then(response => {
+            const recipeIndex = this.state.recipes.findIndex(x => x.id === id)
+            const recipes = update(this.state.recipes, { $splice: [[recipeIndex, 1]]})
+            this.setState({recipes: recipes})
+        })
+        .catch(error => console.log(error))
+    }
+
     resetNotification = () => {
         this.setState({notification: ''})
     }
@@ -83,7 +93,8 @@ class RecipesContainer extends Component {
                             updateRecipe={this.updateRecipe} resetNotification={this.resetNotification}
                             titleRef= {input => this.title = input} />)
                     } else {
-                        return(<Recipe recipe={recipe} key={recipe.id} onClick={this.enableEditing} />)
+                        return(<Recipe recipe={recipe} key={recipe.id}
+                            onClick={this.enableEditing} onDelete={this.deleteRecipe} />)
                     }
                 })}
             </div>

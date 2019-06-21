@@ -24,13 +24,8 @@ class RecipeForm extends Component {
             instructions: this.state.instructions
         }
 
-        axios.put(`http://localhost:3001/api/v1/recipes/${this.props.recipe.id}`,
-        {
-            recipe: recipe
-        })
-        .then(response => { 
-            console.log(response)
-        })
+        axios.put(`http://localhost:3001/api/v1/recipes/${this.props.recipe.id}`, { recipe: recipe })
+        .then(response => { console.log(response)})
         .catch(error => console.log(error))
     }
 
