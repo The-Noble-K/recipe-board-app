@@ -63,6 +63,11 @@ class RecipesContainer extends Component {
         this.setState({notification: ''})
     }
 
+    enableEditing = (id) => {
+        this.setState({editingRecipeId: id},
+            () => { this.title.focus() })
+    }
+
     render() {
         return(
             <div>
@@ -75,9 +80,10 @@ class RecipesContainer extends Component {
                 {this.state.recipes.map((recipe) => {
                     if(this.state.editingRecipeId === recipe.id) {
                         return(<RecipeForm recipe={recipe} key={recipe.id} 
-                            updateRecipe={this.updateRecipe} resetNotification={this.resetNotification} />)
+                            updateRecipe={this.updateRecipe} resetNotification={this.resetNotification}
+                            titleRef= {input => this.title = input} />)
                     } else {
-                        return(<Recipe recipe={recipe} key={recipe.id} />)
+                        return(<Recipe recipe={recipe} key={recipe.id} onClick={this.enableEditing} />)
                     }
                 })}
             </div>
