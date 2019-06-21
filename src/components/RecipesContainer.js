@@ -47,6 +47,14 @@ class RecipesContainer extends Component {
         .catch(error => console.log(error))
     }
 
+    updateRecipe = (recipe) => {
+        const recipeIndex = this.state.recipes.findIndex(x => x.id === recipe.id)
+        const recipes = update(this.state.recipes, {
+            [recipeIndex]: { $set: recipe }
+        })
+        this.setState({recipes: recipes})
+    }
+
     render() {
         return(
             <div>
@@ -55,7 +63,7 @@ class RecipesContainer extends Component {
                 </button>
                 {this.state.recipes.map((recipe) => {
                     if(this.state.editingRecipeId === recipe.id) {
-                        return(<RecipeForm recipe={recipe} key={recipe.id} />)
+                        return(<RecipeForm recipe={recipe} key={recipe.id} updateRecipe={this.updateRecipe} />)
                     } else {
                         return(<Recipe recipe={recipe} key={recipe.id} />)
                     }
